@@ -1,7 +1,15 @@
 import clases.Usuario;
 import clases.Recepcionista;
 import clases.Habitacion;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 
@@ -11,13 +19,15 @@ public class Final {
 		// TODO Auto-generated method stub
 		
 		
-		ArrayList<Habitacion> habitaciones = new ArrayList<>();
+		ArrayList<Habitacion> habitaciones = new ArrayList<>(); // total de habitaciones
+		ArrayList<Habitacion> habitacionesLibres = new ArrayList<>();
+		ArrayList<Habitacion> habitacionesOcupadas = new ArrayList<>();
 		
         File file = new File("lista de habitaciones");
 		
 		if(file.exists()) // esto es para que el archivo se cree la primera vez que se ejecute el programa, y que las demas veces solo se abra
 		{
-			
+			// cargar "habitaciones" del archivo
 		}
 		else
 		{
@@ -90,6 +100,43 @@ public class Final {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public static ArrayList<Habitacion> extraerHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
+	{
+		File archivo = new File(nombreArchivo);
+		String linea;
+		int i = 1;
+		
+		try
+		{
+			BufferedReader lector = new BufferedReader(FileReader(nombreArchivo));
+			while((linea = lector.readLine()) != null)
+			{
+				String[] datos = linea.split(",");
+						
+				Habitacion cuarto = new Habitacion(i, null, null);
+				
+				//cuarto.setNumero(datos[0]); // buscar la forma de leer el "int numero" del archivo para cargarlo en cuarto
+				cuarto.setEstado(datos[1]);
+				cuarto.setHuesped(datos[2]);
+				
+				habitaciones.add(cuarto);
+				
+				i++;
+			}
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return habitaciones;
+		
 	}
 
 }

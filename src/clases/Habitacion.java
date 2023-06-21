@@ -11,6 +11,37 @@ public class Habitacion {
 		this.estado = estado;
 		this.huesped = huesped;
 	}
+
+
+	public int getNumero() {
+		return numero;
+	}
+
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+	public String getHuesped() {
+		return huesped;
+	}
+
+
+	public void setHuesped(String huesped) {
+		this.huesped = huesped;
+	}
+	
 	
 	
 

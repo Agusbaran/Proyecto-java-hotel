@@ -9,6 +9,8 @@ public class Recepcionista extends Usuario{
 		super(tipo, nombre);
 	}
 	
+	
+	
 	public void consultarHabitacionesDisponibles()
 	{
 		
