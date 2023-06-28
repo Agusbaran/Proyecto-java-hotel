@@ -42,19 +42,22 @@ public class Recepcionista extends Usuario{
 		
 	}
 	
-	public void alquilarHabitacion(ArrayList<Habitacion> habitaciones, String huesped)
+	public void alquilarHabitacion(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas,String huesped)
 	{
 		for(Habitacion elemento : habitaciones)
 		{
 			if(elemento.getEstado() == "libre")
 			{
+				
 				elemento.setEstado("ocupado");
 				elemento.setHuesped(huesped);
 				int h = elemento.getNumero();
 				System.out.println("HABITACION " + h + " ALQUILADA POR " + huesped);
-				break;
 			}
+			break;
 		}
+		
+		actualizarListas(habitaciones, habitacionesLibres, habitacionesOcupadas);
 	}
 	
 	public void consultarHabitacionesAlquiladas(ArrayList<Habitacion> habitaciones)
@@ -66,6 +69,23 @@ public class Recepcionista extends Usuario{
  				System.out.println("habitacion " + elemento.getNumero() + ": sr/a " + elemento.getHuesped());
  			}
 		}
+	}
+	
+	public void actualizarListas(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas)
+	{
+		for(Habitacion elemento : habitaciones)
+    	{
+     		if(elemento.getEstado() == "ocupado")
+    		{
+ 				habitacionesOcupadas.add(elemento);
+ 			}
+     		else
+     		{
+     			habitacionesLibres.add(elemento);
+     		}
+		}
+		
+		System.out.println("listas actualizadas...");
 	}
 	
 	
