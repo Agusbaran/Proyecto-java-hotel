@@ -27,8 +27,8 @@ public class Final {
 		
 		if(file.exists()) // esto es para que el archivo se cree la primera vez que se ejecute el programa, y que las demas veces solo se abra
 		{
-			// cargar "habitaciones" del archivo
-			extraerHabitaciones("lista de habitaciones", habitaciones);
+			// cargar "habitaciones" con lo datos del archivo
+			habitaciones = extraerHabitaciones("lista de habitaciones", habitaciones);
 		}
 		else
 		{
@@ -59,7 +59,7 @@ public class Final {
 	    	cargarArchivoDeHabitaciones("lista de habitaciones", habitaciones);
 		}
 		
-		
+
 	}
 	//-------------------------------------------------FUNCIONES---------------------------------------------------------------
 	
@@ -69,7 +69,6 @@ public class Final {
 		
 		try
 		{
-			
 			PrintWriter salida = new PrintWriter(archivo);
 			salida.close();
 		}
@@ -107,7 +106,7 @@ public class Final {
 	{
 		File archivo = new File(nombreArchivo);
 		String linea;
-		int i = 1;
+		int i = 1; // numero de habitacion
 		
 		try
 		{
@@ -118,7 +117,7 @@ public class Final {
 						
 				Habitacion cuarto = new Habitacion(i, null, null);
 				
-				//cuarto.setNumero(datos[0]); // buscar la forma de leer el "int numero" del archivo para cargarlo en cuarto
+				// controlar si lo primero en leerse del archivo es el numero d habitacion o el estado
 				cuarto.setEstado(datos[1]);
 				cuarto.setHuesped(datos[2]);
 				
