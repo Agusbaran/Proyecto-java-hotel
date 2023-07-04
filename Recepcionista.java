@@ -1,4 +1,5 @@
 package clases;
+import java.util.Scanner;
 import clases.Usuario;
 import java.util.ArrayList;
 import clases.Habitacion;
@@ -53,8 +54,9 @@ public class Recepcionista extends Usuario{
 				elemento.setHuesped(huesped);
 				int h = elemento.getNumero();
 				System.out.println("HABITACION " + h + " ALQUILADA POR " + huesped);
+				break;
 			}
-			break;
+			
 		}
 		
 		actualizarListas(habitaciones, habitacionesLibres, habitacionesOcupadas);
@@ -88,6 +90,49 @@ public class Recepcionista extends Usuario{
 		System.out.println("listas actualizadas...");
 	}
 	
+	public void cancelarReserva(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas)
+	{
+		int numeroHabitacion = 0, accion;
+		String huesped = "-_-";
+		Habitacion cuarto;
+		
+		System.out.println("ingrese el dato de busqueda");
+		System.out.println("_1- por numero de habitacion\n_2- por nombre del huesped");
+		Scanner num = new Scanner(System.in);
+		accion = num.nextInt();
+		
+		switch (accion) {
+		case 1:
+			System.out.println("ingrese el numero de habitacion");
+		numeroHabitacion = num.nextInt();
+		num.close();
+			break;
+			
+		case 2:
+			Scanner str = new Scanner(System.in);
+		System.out.println("ingrese el nombre del huesped");
+		huesped = str.nextLine();
+		str.close();
+			break;
+
+		default:
+			break;
+		}
+		
+		
+		for(int i = 0; i < habitaciones.size(); i++)
+    	{
+			cuarto = habitaciones.get(i);
+     		if(cuarto.getNumero() == numeroHabitacion || cuarto.getHuesped().equals(huesped))
+    		{
+ 				cuarto.setEstado("libre");
+ 				break;
+ 			}
+		}
+		
+		actualizarListas(habitaciones, habitacionesLibres, habitacionesOcupadas);
+		
+	}
 	
 
 }
