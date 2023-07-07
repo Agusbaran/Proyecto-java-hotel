@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.io.*;
 
 
-//----------------------------------------cambiar funciones de archivos a formato binario-------------------------------
-
 public class Final {
 
 	public static void main(String[] args) {
