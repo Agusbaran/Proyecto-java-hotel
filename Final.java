@@ -1,17 +1,12 @@
 import clases.Usuario;
 import clases.Recepcionista;
 import clases.Habitacion;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.*;
 
+
+//----------------------------------------cambiar funciones de archivos a formato binario-------------------------------
 
 public class Final {
 
@@ -65,14 +60,18 @@ public class Final {
 	
 	public static void crearArchivo(String nombrearchivo)
 	{
-		File archivo = new File(nombrearchivo);
-		
 		try
 		{
-			PrintWriter salida = new PrintWriter(archivo);
-			salida.close();
+		    FileOutputStream archivo = new FileOutputStream(nombrearchivo);
+		    ObjectOutputStream salida = new ObjectOutputStream(archivo);
+		    archivo.close();
+		    salida.close();
 		}
 		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -80,14 +79,14 @@ public class Final {
 	
 	public static void cargarArchivoDeHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
 	{
-		File archivo = new File(nombreArchivo);
-		
 		try
 		{
-			PrintWriter salida = new PrintWriter(new FileWriter(archivo, false));
+			FileOutputStream archivo =new FileOutputStream(nombreArchivo);
+			ObjectOutputStream salida = new ObjectOutputStream(archivo);
+			
 			for(Habitacion elemento : habitaciones)
 			{
-				salida.println(elemento);
+				salida.writeObject(elemento);
 			}
 			salida.close();
 			System.out.println("\nguardado");
@@ -105,32 +104,40 @@ public class Final {
 	public static ArrayList<Habitacion> extraerHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
 	{
 		File archivo = new File(nombreArchivo);
-		String linea;
-		int i = 1; // numero de habitacion
+		
+		FileInputStream file = null;
+		ObjectInputStream input = null;
 		
 		try
 		{
-			BufferedReader lector = new BufferedReader(FileReader(nombreArchivo));
-			while((linea = lector.readLine()) != null)
+			file = new FileInputStream(archivo);
+			input = new ObjectInputStream(file);
+			
+			Habitacion dato = (Habitacion) input.readObject();
+			
+			while(dato != null)
 			{
-				String[] datos = linea.split(",");
-						
-				Habitacion cuarto = new Habitacion(i, null, null);
+				habitaciones.add(dato);
 				
-				// controlar si lo primero en leerse del archivo es el numero d habitacion o el estado
-				cuarto.setEstado(datos[1]);
-				cuarto.setHuesped(datos[2]);
-				
-				habitaciones.add(cuarto);
-				
-				i++;
+				dato = (Habitacion) input.readObject();
+			}
+			
+			file.close();
+			input.close();
+		}
+		catch(EOFException e)
+		{
+			try
+			{
+				file.close();
+				input.close();
+			}
+			catch(IOException e1)
+			{
+				e1.printStackTrace();
 			}
 		}
-		catch(FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IOException e)
+		catch(IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
