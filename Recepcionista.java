@@ -75,6 +75,9 @@ public class Recepcionista extends Usuario{
 	
 	public void actualizarListas(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas)
 	{
+		habitacionesOcupadas.clear();
+		habitacionesLibres.clear();
+		
 		for(Habitacion elemento : habitaciones)
     	{
      		if(elemento.getEstado() == "ocupado")
