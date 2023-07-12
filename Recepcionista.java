@@ -32,7 +32,7 @@ public class Recepcionista extends Usuario{
 	    	{
 	     		if(elemento.getEstado() == "libre")
 	    		{
-     				System.out.println("habitacion " + elemento.getNumero());
+     				System.out.println("habitacion " + elemento.getNumero() + " " + elemento.getTipo());
      			}
     		}
 		}
