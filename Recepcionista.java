@@ -43,13 +43,12 @@ public class Recepcionista extends Usuario{
 		
 	}
 	
-	public void alquilarHabitacion(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas,String huesped)
+	public void alquilarHabitacion(ArrayList<Habitacion> habitaciones, ArrayList<Habitacion> habitacionesLibres, ArrayList<Habitacion> habitacionesOcupadas,String huesped, String clase)
 	{
 		for(Habitacion elemento : habitaciones)
 		{
-			if(elemento.getEstado() == "libre")
+			if(elemento.getEstado() == "libre" && elemento.getTipo() == clase)
 			{
-				
 				elemento.setEstado("ocupado");
 				elemento.setHuesped(huesped);
 				int h = elemento.getNumero();
@@ -68,7 +67,7 @@ public class Recepcionista extends Usuario{
     	{
      		if(elemento.getEstado() == "ocupado")
     		{
- 				System.out.println("habitacion " + elemento.getNumero() + ": sr/a " + elemento.getHuesped());
+ 				System.out.println("habitacion " + elemento.getNumero() + " " + elemento.getTipo() + ": sr/a " + elemento.getHuesped());
  			}
 		}
 	}
