@@ -4,15 +4,27 @@ public class Habitacion {
 	int numero;
 	String estado; // libre u ocupado
 	String huesped; // nombre del cliente o null si esta libre
+	String tipo; // simple, doble, suite
 	
 	
-	public Habitacion(int numero, String estado, String huesped) {
+	public Habitacion(int numero, String estado, String huesped, String tipo) {
 		this.numero = numero;
 		this.estado = estado;
 		this.huesped = huesped;
+		this.tipo = tipo;
 	}
 
 
+	public String getTipo()
+	{
+		return tipo;
+	}
+	
+	public void setTipo()
+	{
+		this.tipo = tipo;
+	}
+	
 	public int getNumero() {
 		return numero;
 	}

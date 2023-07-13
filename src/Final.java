@@ -1,16 +1,9 @@
 import clases.Usuario;
 import clases.Recepcionista;
 import clases.Habitacion;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.*;
 
 
 public class Final {
@@ -27,22 +20,23 @@ public class Final {
 		
 		if(file.exists()) // esto es para que el archivo se cree la primera vez que se ejecute el programa, y que las demas veces solo se abra
 		{
-			// cargar "habitaciones" del archivo
+			// cargar "habitaciones" con lo datos del archivo
+			habitaciones = extraerHabitaciones("lista de habitaciones", habitaciones);
 		}
 		else
 		{
 			crearArchivo("lista de habitaciones");
 			
-			Habitacion a1 = new Habitacion(1, "libre", null);
-		    Habitacion a2 = new Habitacion(2, "libre", null);
-    		Habitacion a3 = new Habitacion(3, "libre", null);
-	    	Habitacion a4 = new Habitacion(4, "libre", null);
-	    	Habitacion a5 = new Habitacion(5, "libre", null);
-		    Habitacion a6 = new Habitacion(6, "libre", null);
-	    	Habitacion a7 = new Habitacion(7, "libre", null);
-	    	Habitacion a8 = new Habitacion(8, "libre", null);
-	    	Habitacion a9 = new Habitacion(9, "libre", null);
-	    	Habitacion a10 = new Habitacion(10, "libre", null);
+			Habitacion a1 = new Habitacion(1, "libre", null, "simple");
+		    Habitacion a2 = new Habitacion(2, "libre", null, "simple");
+    		Habitacion a3 = new Habitacion(3, "libre", null, "simple");
+	    	Habitacion a4 = new Habitacion(4, "libre", null, "doble");
+	    	Habitacion a5 = new Habitacion(5, "libre", null, "doble");
+		    Habitacion a6 = new Habitacion(6, "libre", null, "doble");
+	    	Habitacion a7 = new Habitacion(7, "libre", null, "doble");
+	    	Habitacion a8 = new Habitacion(8, "libre", null, "suite");
+	    	Habitacion a9 = new Habitacion(9, "libre", null, "suite");
+	    	Habitacion a10 = new Habitacion(10, "libre", null, "suite");
 		
 	    	habitaciones.add(a1);
 	    	habitaciones.add(a2);
@@ -58,21 +52,102 @@ public class Final {
 	    	cargarArchivoDeHabitaciones("lista de habitaciones", habitaciones);
 		}
 		
+		System.out.println("BIEN VENIDO A NUESTRO HOTEL");
+		System.out.println("\nINGRESE TIPO DE USUARIO:\n -1 administrador\n-2 recepcionista\n-3 huesped");
+		int opcion;
+		Scanner num = new Scanner(System.in);
+		opcion = num.nextInt();
+		String nombre, clave;
+		Scanner str = new Scanner(System.in);
 		
+		switch (opcion) {
+		case 1:
+			
+			break;
+		case 2:
+			System.out.println("INGRESE SU NOMBRE DE USUARIO");
+			nombre = str.nextLine();
+			System.out.println("INGRESE SU CONTRASEÑA");
+			clave = str.nextLine();
+			
+			if(nombre.equalsIgnoreCase("Agustin Baran") && clave.equals("claveDeAcceso"))
+			{
+				Recepcionista user1 = new Recepcionista("recepcionista", nombre);
+				
+				System.out.println("BIEN VENIDO " + nombre);
+				Boolean rep;
+				Scanner boo = new Scanner(System.in);
+				
+				do
+				{
+					System.out.println("\nSELECCIONE UNA ACCION\n-1 consultar habitaciones disponibles\n-2 alquilar habitacion\n-3 consultar habitaciones alquiladas\n -4 cancelar reserva");
+					opcion = num.nextInt();
+					
+					switch (opcion) {
+					case 1:
+						user1.consultarHabitacionesDisponibles(habitaciones);
+						
+						break;
+					case 2:
+						System.out.println("ingrese el nombre del huesped");
+						String huesped, clase;
+						huesped = str.nextLine();
+						System.out.println("ingrese el tipo de habitacion a alquilar (simple, doble o suite)");
+						clase = str.nextLine();
+						
+						user1.alquilarHabitacion(habitaciones, habitacionesLibres, habitacionesOcupadas, huesped, clase);
+						
+						break;
+					case 3:
+						user1.consultarHabitacionesAlquiladas(habitacionesOcupadas);
+						
+						break;
+					case 4:
+						user1.cancelarReserva(habitaciones, habitacionesLibres, habitacionesOcupadas);
+						
+						break;
+
+					default:
+						break;
+					}
+					
+					System.out.println("DESEA EJECUTAR OTRA ACCION? (true/false)");
+					rep = boo.nextBoolean();
+				}
+				while(rep == true);
+				
+			}
+			else
+			{
+				System.out.println("NOMBRE DE USUARIO O CONTRASEÑA INCORRECTOS");
+			}
+			
+			break;
+		case 3:
+			
+			break;
+
+		default:
+			break;
+		}
+
 	}
 	//-------------------------------------------------FUNCIONES---------------------------------------------------------------
 	
 	public static void crearArchivo(String nombrearchivo)
 	{
-		File archivo = new File(nombrearchivo);
-		
 		try
 		{
-			
-			PrintWriter salida = new PrintWriter(archivo);
-			salida.close();
+		    FileOutputStream archivo = new FileOutputStream(nombrearchivo);
+		    ObjectOutputStream salida = new ObjectOutputStream(archivo);
+		    archivo.close();
+		    salida.close();
 		}
 		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -80,14 +155,14 @@ public class Final {
 	
 	public static void cargarArchivoDeHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
 	{
-		File archivo = new File(nombreArchivo);
-		
 		try
 		{
-			PrintWriter salida = new PrintWriter(new FileWriter(archivo, false));
+			FileOutputStream archivo =new FileOutputStream(nombreArchivo);
+			ObjectOutputStream salida = new ObjectOutputStream(archivo);
+			
 			for(Habitacion elemento : habitaciones)
 			{
-				salida.println(elemento);
+				salida.writeObject(elemento);
 			}
 			salida.close();
 			System.out.println("\nguardado");
@@ -105,32 +180,40 @@ public class Final {
 	public static ArrayList<Habitacion> extraerHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
 	{
 		File archivo = new File(nombreArchivo);
-		String linea;
-		int i = 1;
+		
+		FileInputStream file = null;
+		ObjectInputStream input = null;
 		
 		try
 		{
-			BufferedReader lector = new BufferedReader(FileReader(nombreArchivo));
-			while((linea = lector.readLine()) != null)
+			file = new FileInputStream(archivo);
+			input = new ObjectInputStream(file);
+			
+			Habitacion dato = (Habitacion) input.readObject();
+			
+			while(dato != null)
 			{
-				String[] datos = linea.split(",");
-						
-				Habitacion cuarto = new Habitacion(i, null, null);
+				habitaciones.add(dato);
 				
-				//cuarto.setNumero(datos[0]); // buscar la forma de leer el "int numero" del archivo para cargarlo en cuarto
-				cuarto.setEstado(datos[1]);
-				cuarto.setHuesped(datos[2]);
-				
-				habitaciones.add(cuarto);
-				
-				i++;
+				dato = (Habitacion) input.readObject();
+			}
+			
+			file.close();
+			input.close();
+		}
+		catch(EOFException e)
+		{
+			try
+			{
+				file.close();
+				input.close();
+			}
+			catch(IOException e1)
+			{
+				e1.printStackTrace();
 			}
 		}
-		catch(FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IOException e)
+		catch(IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
