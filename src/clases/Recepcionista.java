@@ -136,6 +136,5 @@ public class Recepcionista extends Usuario{
 		actualizarListas(habitaciones, habitacionesLibres, habitacionesOcupadas);
 		
 	}
-	
 
 }

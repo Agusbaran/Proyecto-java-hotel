@@ -4,7 +4,7 @@ import clases.Habitacion;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
-
+import clases.*;
 
 public class Final {
 
@@ -17,6 +17,7 @@ public class Final {
 		ArrayList<Habitacion> habitacionesOcupadas = new ArrayList<>();
 		
         File file = new File("lista de habitaciones");
+		
 		
 		if(file.exists()) // esto es para que el archivo se cree la primera vez que se ejecute el programa, y que las demas veces solo se abra
 		{
@@ -62,9 +63,9 @@ public class Final {
 		
 		switch (opcion) {
 		case 1:
-			
+
 			break;
-		case 2:
+		case 2: // recepcionista
 			System.out.println("INGRESE SU NOMBRE DE USUARIO");
 			nombre = str.nextLine();
 			System.out.println("INGRESE SU CONTRASEÑA");
@@ -123,13 +124,24 @@ public class Final {
 			}
 			
 			break;
-		case 3:
+		case 3: // huesped
+			
+			System.out.println("INGRESE SU NOMBRE");
+			nombre = str.nextLine();
+			Huesped huesped1 = new Huesped("huesped", nombre, "-", 0);
+			
+			System.out.println("BIEN VENIDO " + huesped1.getNombre());
+			
+			huesped1.verReserva(huesped1.getNombre(), habitaciones);
+
 			
 			break;
 
 		default:
 			break;
 		}
+		
+		actualizarArchivoDeHabitaciones("lista de habitaciones", habitaciones);
 
 	}
 	//-------------------------------------------------FUNCIONES---------------------------------------------------------------
@@ -221,5 +233,44 @@ public class Final {
 		return habitaciones;
 		
 	}
-
+	
+	public static void actualizarArchivoDeHabitaciones(String nombreArchivo, ArrayList<Habitacion> habitaciones)
+	{
+		try
+		{
+			File file = new File(nombreArchivo);
+			FileOutputStream flujoSalida =new FileOutputStream(file, false);
+			
+			flujoSalida.close();	
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		
+		try
+		{
+			FileOutputStream archivo =new FileOutputStream(nombreArchivo);
+			ObjectOutputStream salida = new ObjectOutputStream(archivo);
+			
+			for(Habitacion elemento : habitaciones)
+			{
+				salida.writeObject(elemento);
+			}
+			salida.close();
+			System.out.println("\nguardado");
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
+
+ 
