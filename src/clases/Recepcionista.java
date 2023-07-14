@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import clases.Habitacion;
 
 public class Recepcionista extends Usuario{
+	String clave;
 	
-	public Recepcionista(String tipo, String nombre)
+	public Recepcionista(String tipo, String nombre, String clave)
 	{
 		super(tipo, nombre);
+		this.clave = clave;
 	}
 	
 	
@@ -137,4 +139,16 @@ public class Recepcionista extends Usuario{
 		
 	}
 
+
+	public String getClave() {
+		return clave;
+	}
+
+
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+
+	
+	
 }

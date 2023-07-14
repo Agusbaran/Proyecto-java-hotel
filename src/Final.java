@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 import clases.*;
+import java.util.Iterator;
 
 public class Final {
 
@@ -15,6 +16,7 @@ public class Final {
 		ArrayList<Habitacion> habitaciones = new ArrayList<>(); // total de habitaciones
 		ArrayList<Habitacion> habitacionesLibres = new ArrayList<>();
 		ArrayList<Habitacion> habitacionesOcupadas = new ArrayList<>();
+		ArrayList<Recepcionista> recepcionistas = new ArrayList<>();
 		
         File file = new File("lista de habitaciones");
 		
@@ -63,6 +65,65 @@ public class Final {
 		
 		switch (opcion) {
 		case 1:
+			
+			
+			Scanner lector = new Scanner(System.in);
+			
+			boolean programaActivo = true;
+			
+			do {
+		System.out.println("¿Que operacion quiere realizar?");
+		System.out.println("1. Agregar recepcionista\n2. Eliminar recepcionista \n3. Modificar recepcionista \n4. Ver recepcionistas \n5. Cerrar operacion");
+		opcion = lector.nextInt();
+		if(opcion == 1) {
+			System.out.println("Nombre de recepcionista");
+			nombre = lector.next();
+			System.out.println("Introduce la clave del recepcionista");
+		    clave = lector.nextLine();
+			
+			Recepcionista a = new Recepcionista("recepcionista", "-", "-");
+			a.setNombre(nombre);
+			a.setClave(clave);
+			recepcionistas.add(a);
+		} else if (opcion == 2) {
+			System.out.println("Nombre de recepcionista");
+			nombre = lector.next();
+			Iterator<Recepcionista> it = recepcionistas.iterator();
+			while (it.hasNext()) {
+				Recepcionista a = it.next();
+				if(a.getNombre().equals(nombre)) {
+					it.remove();
+				}
+			}
+			} else if (opcion == 3) {
+				System.out.println("Nombre de recepcionista");
+				nombre = lector.nextLine();
+				System.out.println("Nuevo nombre de recepcionista");
+				String nombre2 = lector.nextLine();
+				System.out.println("Introduce la nueva clave del recepcionista");
+				String clave2 = lector.nextLine();
+
+				Iterator<Recepcionista> it = recepcionistas.iterator();
+				while (it.hasNext()) {
+					Recepcionista a = it.next();
+					if(a.getNombre().equals(nombre)) {
+						a.setNombre(nombre2);
+						a.setClave(clave2);
+					}
+				}
+		} else if (opcion == 4) {
+			for(Recepcionista a: recepcionistas) {
+				System.out.println("nombre: "+ a.getNombre()+ " , clave"+ a.getClave());
+		}
+		}
+		else if (opcion == 5) {
+		programaActivo = false;
+		}else {
+			System.out.println("opcion invalida");
+		}	
+		}	
+			while(programaActivo);
+		
 
 			break;
 		case 2: // recepcionista
@@ -73,7 +134,7 @@ public class Final {
 			
 			if(nombre.equalsIgnoreCase("Agustin Baran") && clave.equals("claveDeAcceso"))
 			{
-				Recepcionista user1 = new Recepcionista("recepcionista", nombre);
+				Recepcionista user1 = new Recepcionista("recepcionista", nombre, clave);
 				
 				System.out.println("BIEN VENIDO " + nombre);
 				Boolean rep;
